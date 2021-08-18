@@ -1,0 +1,12 @@
+/* Add here all your css styles (customizations) */
+
+
+
+ .ui-autocomplete {
+        max-height: 50%;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+        /* add padding to account for vertical scrollbar */
+        padding-right: 20px;
+    }

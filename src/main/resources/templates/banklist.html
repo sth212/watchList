@@ -1,0 +1,121 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width = device-width, initial-scale = 1, shrink-to-fit = no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <title>Watchlist App</title>
+</head>
+
+<body>
+<div class="container">
+    <nav class = "navbar navbar-expand-sm navbar-dark bg-secondary">
+        <a class = "navbar-brand" href = "homepage-static.html">Watchlist App</a>
+        <button class = "navbar-toggler" type = "button" data-toggle = "collapse"
+                data-target = "#navbarSupportedContent"
+                aria-controls = "navbarSupportedContent" aria-expanded = "false"
+                aria-label = "Toggle navigation">
+            <span class = "navbar-toggler-icon"></span>
+        </button>
+
+        <div class = "collapse navbar-collapse" id = "navbarSupportedContent">
+            <ul class = "navbar-nav mr-auto">
+                <li class = "nav-item">
+                    <a class = "nav-link" href = "/">Home</a>
+                </li>
+                <li class = "nav-item active">
+                    <a class = "nav-link" href = "/watchlist">Watchlist</a>
+                </li>
+                <li class = "nav-item ">
+                    <a class = "nav-link" href = "/watchlistItemForm">Submit an item</a>
+                </li>
+                <li class = "nav-item ">
+                    <a class = "nav-link" href = "/banklist">Banks</a>
+                </li>
+                <li class = "nav-item ">
+                    <a class = "nav-link" href = "/uploadFile">Upload</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <form action="#" method="post" th:action="@{/banklist}" >
+        <h2 class = "mt-4"></h2>
+
+
+
+        <div class = "form-group row ">
+
+            <label for = "Name" class = "col-sm-2 col-form-label">Name</label>
+            <div class = "col-sm-4">
+                <input th:field="*{bankResult.SearchName}" type = "text" class = "form-control" placeholder = "Mandatory">
+            </div>
+            <div class="col-sm-4">
+                <span class="text-danger" th:errors="*{bankResult.SearchName}"> </span>
+            </div>
+        </div>
+
+
+        <div class = "form-group row">
+            <div class = "col-sm-10">
+                <button type = "submit" class = "btn btn-primary">Search</button>
+
+            </div>
+        </div>
+    </form>
+    <h2  class = "mt-4">Banklist</h2>
+
+    <table class="table">
+        <thead class = "thead-light">
+        <tr>
+            <th class="text-left">Title</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="bank: ${bankResult.BankList}">
+            <td th:text="${bank.Name}">Avatar</td>
+
+           <td> <a th:href="@{'/banklist/export/excel?name=' + ${bank.Name}}">Export to Excel</a></td>
+
+        </tr>
+
+        </tbody>
+    </table>
+<!--    <tr class="pagination row"-->
+<!--        th:if="${bankResult.totalPages > 0}"-->
+<!--        th:each="pageNumber : ${pageNumbers}">-->
+<!--        <a th:href="@{/banklist(size=${bankResult.BankList.size}, page=${pageNumber})}"-->
+<!--           th:text=${pageNumber}-->
+<!--           class="page-item" th:classappend="${pageNumber==PageNumber + 1} ? active:disabled "></a>-->
+
+<!--    </tr>-->
+
+    <!-- banks pagination -->
+    <nav aria-label="Pagination" th:if="${bankResult.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-bold">
+            <li class="page-item" th:classappend="${PageNumber eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/banklist?page={id}(id=${PageNumber lt 2 ? 1 : PageNumber})}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${i eq PageNumber + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( 1, bankResult.totalPages, 1)}">
+                <a class="page-link" th:href="@{/banklist?page={id}(id=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+            <li class="page-item" th:classappend="${PageNumber + 1 eq bankResult.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/banklist?page={id}(id=${PageNumber + 2})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</body>
+</html>
